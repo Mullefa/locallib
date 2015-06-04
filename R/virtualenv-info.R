@@ -8,5 +8,5 @@ virtualenv_info <- function() {
     message("virtual environment activated ", bracket(meta_data$path))
   }
 
-  message("drat repos is ", drat_repo())
+  message("drat repos is located at ", drat_repo())
 }

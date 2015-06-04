@@ -14,7 +14,7 @@ drat_ <- function(f) {
     pkgs <- lib_diff(before, after)
 
     if (length(pkgs)) {
-      message("inserting packages into drat repo ", bracket(getOption("dratRepo")), "\n")
+      message("inserting packages into drat repo ", bracket(drat_repo()), "\n")
     }
 
     for (pkg in pkgs) {
@@ -91,6 +91,11 @@ is.latest_version <- function(pkg, version) {
 valid_drat_repo <- function() {
   # TODO: implement this function
   TRUE
+}
+
+
+drat_repo <- function() {
+  getOption("dratRepo", "~/git/drat")
 }
 
 
