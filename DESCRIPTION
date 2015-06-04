@@ -6,6 +6,7 @@ Description: virtualenv for R.
 Depends:
     R (>= 3.2.0)
 Imports:
-    drat (>= 0.0.4)
+    drat (>= 0.0.4),
+    git2r (>= 0.10.0)
 License: MIT
 LazyData: true

@@ -15,11 +15,22 @@ drat_ <- function(f) {
 
     if (length(pkgs)) {
       message("inserting packages into drat repo ", bracket(drat_repo()), "\n")
-    }
 
-    for (pkg in pkgs) {
-      message("- ", pkg$Package, " ", bracket(pkg$Version), "\n")
-      download_and_insert(pkg$Package, pkg$Version)
+      repo <- git2r::repository(drat_repo())
+      git2r::checkout(repo, "gh-pages")
+
+      for (pkg in pkgs) {
+        message("- ", pkg$Package, " ", bracket(pkg$Version), "\n")
+        download_and_insert(pkg$Package, pkg$Version)
+
+        path <- file.path("src", "contrib", pkg_file(pkg$Package, pkg$Version))
+        git2r::add(repo, path)
+      }
+
+      git2r::add(repo, file.path("src", "contrib", "PACKAGES"))
+      git2r::add(repo, file.path("src", "contrib", "PACKAGES.gz"))
+      git2r::commit(repo, "new packages added")
+      git2r::push(repo)
     }
   }
 }
@@ -57,18 +68,18 @@ read_dcf <- function(pkg) {
 
 
 download_and_insert <- function(pkg, version) {
-  pkg_file <- paste0(pkg, "_", version, ".tar.gz")
-  pkg_url <- pkg_url(pkg, version)
+  url <- pkg_url(pkg, version)
+  pkg_file_ <- pkg_file(pkg, version)
 
-  download.file(pkg_url, pkg_file)
-  drat::insertPackage(pkg_file)
+  download.file(url, pkg_file_)
+  drat::insertPackage(pkg_file_)
 
-  unlink(pkg_file)
+  unlink(pkg_file_)
 }
 
 
 pkg_url <- function(pkg, version) {
-  url <- paste0(pkg, "_", version, ".tar.gz")
+  url <- pkg_file(pkg, version)
 
   if (!is.latest_version(pkg, version)) {
     url <- paste0("00Archive/", pkg, "/", url)
@@ -82,6 +93,11 @@ is.latest_version <- function(pkg, version) {
   m <- available.packages(contrib.url(getOption("repos"), "source"))
   latest_version <- m[rownames(m) == pkg, ]["Version"]
   version == latest_version
+}
+
+
+pkg_file <- function(pkg, version) {
+  paste0(pkg, "_", version, ".tar.gz")
 }
 
 
