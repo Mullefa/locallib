@@ -10,12 +10,15 @@ The common usage pattern would be for the user to call `virtualenv()` to create 
 
 ## Package management
 
-Isolated environments and package management go hand in hand.  [drat](https://github.com/eddelbuettel/drat) is recommended for packagement management if base R is not sufficient.
+Isolated environments and package management go hand in hand.  [drat](https://github.com/eddelbuettel/drat) is recommended for packagement management if base R is not sufficient. 
+
+To facilitate adding the packages installed whilst in a virtual environment to a drat repository, the function `drat_install()` is provided. It installs packages into the virtual environment, and also inserts the source for the packages into the drat repository. The user can then push the changes to their drat repository upstream. This builds up a repository with all dependencies for the project dynamically, and saves effort on the part of the user.
+
+_There will be a case study coming to demonstrate how this is used in enterprise._
 
 ## Additional features
 
 In the future the following features will be added:
 
-- native support for drat
 - ability to create a configuration file specifying the virtual environment, and the ability to re-create the virtual environment from this file
 - a hook which will warn the user if non-base libraries are installed in the local library

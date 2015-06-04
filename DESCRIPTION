@@ -3,6 +3,9 @@ Title: virtualenv for R
 Version: 0.0.0.9000
 Authors@R: person("Guy", "Dawson", , "gccdawson@gmail.com", role = c("aut", "cre"))
 Description: virtualenv for R.
-Depends: R (>= 3.2.0)
+Depends:
+    R (>= 3.2.0)
+Imports:
+    drat (>= 0.0.4)
 License: MIT
 LazyData: true

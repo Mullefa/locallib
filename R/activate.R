@@ -39,20 +39,8 @@ meta_data$activated <- FALSE
 meta_data$path <- NULL
 
 
-
 #' @rdname activate
 #' @export
 is.activated <- function() {
   meta_data$activated
-}
-
-
-#' @export
-#' @rdname activate
-info <- function() {
-  if (!is.activated()) {
-    message("virtual environment not currently activated")
-  } else {
-    message("virtual environment activated ", bracket(meta_data$path))
-  }
 }

@@ -3,6 +3,9 @@
 }
 
 
+`%notin%` <- Negate(`%in%`)
+
+
 normalize_path <- function(path) {
   tryCatch(
     normalizePath(path %||% ".", mustWork = TRUE),
