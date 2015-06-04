@@ -1,5 +1,5 @@
 drat_ <- function(f) {
-  function(...) {
+  function(..., commit = FALSE) {
     if (!is.activated()) {
       stop("virtual environment must be activated to use drat_install()", call. = FALSE)
     }
@@ -10,27 +10,17 @@ drat_ <- function(f) {
 
     before <- lib_snapshot()
     f(...)
+
     after <- lib_snapshot()
     pkgs <- lib_diff(before, after)
 
     if (length(pkgs)) {
       message("inserting packages into drat repo ", bracket(drat_repo()), "\n")
 
-      repo <- git2r::repository(drat_repo())
-      git2r::checkout(repo, "gh-pages")
-
       for (pkg in pkgs) {
         message("- ", pkg$Package, " ", bracket(pkg$Version), "\n")
-        download_and_insert(pkg$Package, pkg$Version)
-
-        path <- file.path("src", "contrib", pkg_file(pkg$Package, pkg$Version))
-        git2r::add(repo, path)
+        download_and_insert(pkg$Package, pkg$Version, commit)
       }
-
-      git2r::add(repo, file.path("src", "contrib", "PACKAGES"))
-      git2r::add(repo, file.path("src", "contrib", "PACKAGES.gz"))
-      git2r::commit(repo, "new packages added")
-      git2r::push(repo)
     }
   }
 }
@@ -67,14 +57,14 @@ read_dcf <- function(pkg) {
 # downlaod and insert -----------------------------------------------------
 
 
-download_and_insert <- function(pkg, version) {
+download_and_insert <- function(pkg, version, commit) {
   url <- pkg_url(pkg, version)
-  pkg_file_ <- pkg_file(pkg, version)
+  pkg <- pkg_file(pkg, version)
 
-  download.file(url, pkg_file_)
-  drat::insertPackage(pkg_file_)
+  download.file(url, pkg)
+  drat::insertPackage(pkg, commit = commit)
 
-  unlink(pkg_file_)
+  unlink(pkg)
 }
 
 
