@@ -2,6 +2,7 @@
 
 export(activate)
 export(drat_install)
+export(drat_update)
 export(is.activated)
 export(virtualenv)
 export(virtualenv_info)

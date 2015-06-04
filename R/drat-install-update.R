@@ -1,30 +1,26 @@
-#' drat install
-#'
-#' Install a package into the virtual environment, then insert the source for the
-#' installed packge into the drat repository.
-#'
-#' @export
-drat_install <- function(...) {
-  if (!is.activated()) {
-    stop("virtual environment must be activated to use drat_install()", call. = FALSE)
-  }
+drat_ <- function(f) {
+  function(...) {
+    if (!is.activated()) {
+      stop("virtual environment must be activated to use drat_install()", call. = FALSE)
+    }
 
-  if(!valid_drat_repo()) {
-    stop("a valid drat local repo has not been configured", call. = FALSE)
-  }
+    if(!valid_drat_repo()) {
+      stop("a valid drat local repo has not been configured", call. = FALSE)
+    }
 
-  before <- lib_snapshot()
-  install.packages(...)
-  after <- lib_snapshot()
-  pkgs <- lib_diff(before, after)
+    before <- lib_snapshot()
+    f(...)
+    after <- lib_snapshot()
+    pkgs <- lib_diff(before, after)
 
-  if (length(pkgs)) {
-    message("inserting packages into drat repo ", bracket(getOption("dratRepo")))
-  }
+    if (length(pkgs)) {
+      message("inserting packages into drat repo ", bracket(getOption("dratRepo")), "\n")
+    }
 
-  for (pkg in pkgs) {
-    message("- ", pkg$Package, " ", bracket(pkg$Version), "\n")
-    download_and_insert(pkg$Package, pkg$Version)
+    for (pkg in pkgs) {
+      message("- ", pkg$Package, " ", bracket(pkg$Version), "\n")
+      download_and_insert(pkg$Package, pkg$Version)
+    }
   }
 }
 
@@ -96,3 +92,24 @@ valid_drat_repo <- function() {
   # TODO: implement this function
   TRUE
 }
+
+
+# exported functions ------------------------------------------------------
+
+
+#' drat install
+#'
+#' Install packages into the virtual environment, then insert the source for the
+#' installed packge into the drat repository.
+#'
+#' @usage drat_install(...)
+#' @param ... Arguments to pass to \code{\link{install.packages}()} or
+#'   \code{\link{update.packages}()} respectively.
+#' @export
+drat_install <- drat_(install.packages)
+
+
+#' @usage drat_update(...)
+#' @export
+#' @rdname drat_install
+drat_update <- drat_(update.packages)
