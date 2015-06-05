@@ -118,14 +118,15 @@ drat_repo <- function() {
 #' Install packages into the virtual environment, then insert the source for the
 #' installed packge into the drat repository.
 #'
-#' @usage drat_install(...)
+#' @usage drat_install(..., commit = FALSE)
 #' @param ... Arguments to pass to \code{\link{install.packages}()} or
 #'   \code{\link{update.packages}()} respectively.
+#' @param commit See \code{commit} argument of \code{drat::\link[drat]{insertPackage}()}.
 #' @export
 drat_install <- drat_(install.packages)
 
 
-#' @usage drat_update(...)
+#' @usage drat_update(..., commit = FALSE)
 #' @export
 #' @rdname drat_install
 drat_update <- drat_(update.packages)

@@ -5,13 +5,15 @@
 \alias{drat_update}
 \title{drat install}
 \usage{
-drat_install(...)
+drat_install(..., commit = FALSE)
 
-drat_update(...)
+drat_update(..., commit = FALSE)
 }
 \arguments{
 \item{...}{Arguments to pass to \code{\link{install.packages}()} or
 \code{\link{update.packages}()} respectively.}
+
+\item{commit}{See \code{commit} argument of \code{drat::\link[drat]{insertPackage}()}.}
 }
 \description{
 Install packages into the virtual environment, then insert the source for the

@@ -1,0 +1,19 @@
+R_version: 3.2.0
+packages:
+- name: BH
+  version: 1.58.0-1
+- name: lazyeval
+  version: 0.1.10
+- name: magrittr
+  version: '1.5'
+- name: R6
+  version: 2.0.1
+- name: assertthat
+  version: '0.1'
+- name: Rcpp
+  version: 0.11.6
+- name: DBI
+  version: 0.3.1
+- name: dplyr
+  version: 0.4.1
+

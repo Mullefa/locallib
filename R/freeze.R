@@ -53,8 +53,14 @@ parse_deps <- function(deps) {
 # FIXME: create robust version of this function
 pkgignore <- function() {
   path <- file.path(meta_data$path, "pkgignore")
-  pkgs <- readChar(path, file.info(path)$size)
-  pkgs <- strsplit(pkgs, "\n")[[1]]
+
+  if (file.exists(path)) {
+    pkgs <- readChar(path, file.info(path)$size)
+    pkgs <- strsplit(pkgs, "\n")[[1]]
+  } else {
+    pkgs <- NULL
+  }
+
   c(BASE_AND_RECOMMENDED, pkgs)
 }
 

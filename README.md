@@ -20,11 +20,6 @@ When using the functions `drat_install()` and `freeze()`, it may be desirable fo
 
 Lastly, the virtual environment can be replciated from the `pkgs.yaml` file using the function `thaw()`.
 
-_There will be a case study coming to demonstrate how this is used in enterprise._
+## Example
 
-## Additional features
-
-In the future the following features will be added:
-
-- ability to re-create the virtual environment from the `pkg.yaml` file
-- a hook which will warn the user if non-base libraries are installed in the local library
+See the `example/` subdirectory for typically usage patterns.
