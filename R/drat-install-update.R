@@ -13,6 +13,7 @@ drat_ <- function(f) {
 
     after <- lib_snapshot()
     pkgs <- lib_diff(before, after)
+    pkgs <- Filter(function(pkg) pkg$Package %notin% pkgignore(), pkgs)
 
     if (length(pkgs)) {
       message("inserting packages into drat repo ", bracket(drat_repo()), "\n")

@@ -7,14 +7,15 @@ freeze <- function() {
   }
 
   lib_path <- file.path(meta_data$path, "library")
+
   pkgs <- read_dcfs(lib_path)
   deps <- lapply(pkgs, pkg_deps)
-  tdeps <- tsort(deps)
-  tdeps <- Filter(function(dep) dep %notin% BASE_AND_RECOMENDED, tdeps)
-  tdeps <- lapply(tdeps, function(dep) list(name = dep, version = pkgs[[dep]]$Version))
+  deps <- Filter(function(dep) dep %notin% pkgignore(), tsort(deps))
+  deps <- lapply(deps, function(dep) list(name = dep, version = pkgs[[dep]]$Version))
 
-  out <- list(R_version = R_version(), packages = tdeps)
+  out <- list(R_version = R_version(), packages = deps)
   write(yaml::as.yaml(out), file.path(meta_data$path, "pkgs.yaml"))
+
   invisible(out)
 }
 
@@ -49,6 +50,15 @@ parse_deps <- function(deps) {
 }
 
 
+# FIXME: create robust version of this function
+pkgignore <- function() {
+  path <- file.path(meta_data$path, "pkgignore")
+  pkgs <- readChar(path, file.info(path)$size)
+  pkgs <- strsplit(pkgs, "\n")[[1]]
+  c(BASE_AND_RECOMENDED, pkgs)
+}
+
+
 BASE_AND_RECOMENDED <- c(
   "base",
   "compiler",
@@ -77,6 +87,7 @@ BASE_AND_RECOMENDED <- c(
   "rpart",
   "spatial",
   "survival",
+  "tools",
   "utils"
 )
 
