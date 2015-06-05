@@ -41,9 +41,13 @@ lib_diff <- function(before, after) {
 
 lib_snapshot <- function() {
   lib_path <- file.path(meta_data$path, "library")
+  read_dcfs(lib_path)
+}
+
+
+read_dcfs <- function(lib_path) {
   pkgs <- list.files(lib_path, full.names = TRUE)
-  pkgs <- lapply(setNames(pkgs, basename(pkgs)), read_dcf)
-  pkgs
+  lapply(setNames(pkgs, basename(pkgs)), read_dcf)
 }
 
 

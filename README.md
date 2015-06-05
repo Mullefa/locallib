@@ -14,11 +14,13 @@ Isolated environments and package management go hand in hand.  [drat](https://gi
 
 To facilitate adding the packages installed whilst in a virtual environment to a drat repository, the function `drat_install()` is provided. It installs packages into the virtual environment, and also inserts the source for the packages into the drat repository. The user can then push the changes to their drat repository upstream. This builds up a repository with all dependencies for the project dynamically, and saves effort on the part of the user.
 
+To capture a snapshot of all the packages installed locally, the function `freeze()` is exported. It returns a list (invisibly) of the packages installed locally, and also writes this information to a yaml file called `pkgs.yaml` in virtual environments root directory.
+
 _There will be a case study coming to demonstrate how this is used in enterprise._
 
 ## Additional features
 
 In the future the following features will be added:
 
-- ability to create a configuration file specifying the virtual environment, and the ability to re-create the virtual environment from this file
+- ability to re-create the virtual environment from the `pkg.yaml` file
 - a hook which will warn the user if non-base libraries are installed in the local library
