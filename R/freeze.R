@@ -55,11 +55,11 @@ pkgignore <- function() {
   path <- file.path(meta_data$path, "pkgignore")
   pkgs <- readChar(path, file.info(path)$size)
   pkgs <- strsplit(pkgs, "\n")[[1]]
-  c(BASE_AND_RECOMENDED, pkgs)
+  c(BASE_AND_RECOMMENDED, pkgs)
 }
 
 
-BASE_AND_RECOMENDED <- c(
+BASE_AND_RECOMMENDED <- c(
   "base",
   "compiler",
   "datasets",
@@ -88,7 +88,9 @@ BASE_AND_RECOMENDED <- c(
   "spatial",
   "survival",
   "tools",
-  "utils"
+  "translations",
+  "utils",
+  "00LOCK-virtualenv"
 )
 
 
