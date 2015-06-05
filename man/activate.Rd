@@ -5,7 +5,7 @@
 \alias{is.activated}
 \title{Activate a virtual environment}
 \usage{
-activate(path = NULL, deps = TRUE, drat = TRUE, ...)
+activate(path = NULL)
 
 is.activated()
 }

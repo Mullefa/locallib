@@ -18,6 +18,8 @@ To capture a snapshot of all the packages installed locally, the function `freez
 
 When using the functions `drat_install()` and `freeze()`, it may be desirable for packages to be ignored. Any packages referenced in the file `pkgignore` in the root of the virtual environment will not be inserted into the drat repository or included in the `pkgs.yaml` file respectively.
 
+Lastly, the virtual environment can be replciated from the `pkgs.yaml` file using the function `thaw()`.
+
 _There will be a case study coming to demonstrate how this is used in enterprise._
 
 ## Additional features

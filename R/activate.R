@@ -3,7 +3,7 @@
 #' @param path(string)
 #'
 #' @export
-activate <- function(path = NULL, deps = TRUE, drat = TRUE, ...) {
+activate <- function(path = NULL) {
   path <- normalize_path(path)
 
   if (is.activated()) {
