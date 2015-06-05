@@ -42,27 +42,6 @@ meta_data$activated <- FALSE
 meta_data$path <- NULL
 
 
-# install dependencies locally --------------------------------------------
-
-
-install_deps <- function(lib_path, drat, ...) {
-  pkgs <- names(read_dcfs(lib_path))
-
-  for (dep in DEPS) {
-    if (dep %notin% pkgs) {
-      if (drat) {
-        drat_install(dep, ...)
-      } else {
-        install.packages(dep)
-      }
-    }
-  }
-}
-
-
-DEPS <- c("drat", "git2r", "yaml")
-
-
 #' @rdname activate
 #' @export
 is.activated <- function() {

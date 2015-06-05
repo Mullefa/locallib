@@ -27,10 +27,9 @@ thaw <- function(...) {
         "Not attempting installation into the local library.",
         call. = FALSE
       )
-      next
+    } else {
+      install.packages(pkg$name, ...)
     }
-
-    install.packages(pkg$name, ...)
   }
 }
 
