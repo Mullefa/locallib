@@ -19,6 +19,11 @@ normalize_path <- function(path) {
 bracket <- function(x) paste0("(", x, ")")
 
 
+R_version <- function() {
+  rv <- R.Version()
+  paste0(rv$major, ".", rv$minor)
+}
+
 
 # A hacky topological sort which which reduces the set of all nodes recursively by
 # removing nodes which are not incoming nodes. Needs improvement, in particular,
