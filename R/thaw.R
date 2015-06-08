@@ -45,13 +45,24 @@ thaw <- function(...) {
 }
 
 
+# When installing a package which is not the latest version, there are two scenarios:
+# 1. the package will be in src/contrib/00Archive/<pkgname>/ (e.g. CRAN)
+# 2. the package will be in src/contrib/ (e.g. a drat repository)
+# Both these scenarios are handled in the tryCatch() call.
 download_and_install <- function(pkg, version) {
-  url <- pkg_url(pkg, version)
-  pkg <- pkg_file(pkg, version)
+  pkg._ <- pkg_file(pkg, version)
+  url <- pkg_url(pkg, version, archive = TRUE)
 
-  download.file(url, pkg)
-  install.packages(pkg, repos = NULL, type = "source")
+  tryCatch(
+    download.file(url, pkg._),
+    error = function(e) {
+      url <- pkg_url(pkg, version, archive = FALSE)
+      download.file(url, pkg._)
+    }
+  )
 
-  unlink(pkg)
+  install.packages(pkg._, repos = NULL, type = "source")
+
+  unlink(pkg._)
 }
 
