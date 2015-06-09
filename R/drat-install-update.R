@@ -4,8 +4,11 @@ drat_ <- function(f) {
       stop("virtual environment must be activated to use drat_install()", call. = FALSE)
     }
 
-    if(!valid_drat_repo()) {
-      stop("a valid drat local repo has not been configured", call. = FALSE)
+    if (!is.local_drat_repo_set()) {
+      stop(
+        "local drat repo has not been set. Use the function: ",
+        "set_local_drat_repo() to do so.", call. = FALSE
+      )
     }
 
     before <- lib_snapshot()
@@ -16,7 +19,7 @@ drat_ <- function(f) {
     pkgs <- Filter(function(pkg) pkg$Package %notin% pkgignore(), pkgs)
 
     if (length(pkgs)) {
-      message("inserting packages into drat repo ", bracket(drat_repo()), "\n")
+      message("inserting packages into drat repo ", bracket(local_drat_repo()), "\n")
 
       for (pkg in pkgs) {
         message("- ", pkg$Package, " ", bracket(pkg$Version), "\n")
@@ -63,24 +66,26 @@ read_dcf <- function(pkg) {
 
 
 download_and_insert <- function(pkg, version, commit) {
-  url <- pkg_url(pkg, version)
-  pkg <- pkg_file(pkg, version)
+  pkg._ <- pkg_file(pkg, version)
+  url <- pkg_url(pkg, version, archive = TRUE)
 
-  download.file(url, pkg)
-  drat::insertPackage(pkg, commit = commit)
+  download.file(url, pkg._)
+  drat::insertPackage(pkg._, commit = commit, repodir = meta_data$repo_path)
 
-  unlink(pkg)
+  unlink(pkg._)
 }
 
 
-pkg_url <- function(pkg, version) {
-  url <- pkg_file(pkg, version)
+pkg_url <- function(pkg, version, archive) {
+  pkg._ <- pkg_file(pkg, version)
 
-  if (!is.latest_version(pkg, version)) {
-    url <- paste0("00Archive/", pkg, "/", url)
+  if (!is.latest_version(pkg, version) && archive) {
+    base_url <- paste0("00Archive/", pkg, "/", pkg._)
+  } else {
+    base_url <- pkg._
   }
 
-  paste0(contrib.url(getOption("repos"), "source"), "/", url)
+  paste0(contrib.url(getOption("repos"), "source"), "/", base_url)
 }
 
 
@@ -93,20 +98,6 @@ is.latest_version <- function(pkg, version) {
 
 pkg_file <- function(pkg, version) {
   paste0(pkg, "_", version, ".tar.gz")
-}
-
-
-# valid drat repo ---------------------------------------------------------
-
-
-valid_drat_repo <- function() {
-  # TODO: implement this function
-  TRUE
-}
-
-
-drat_repo <- function() {
-  getOption("dratRepo", "~/git/drat")
 }
 
 

@@ -57,5 +57,9 @@ virtualenv_info <- function() {
     message("virtual environment activated ", bracket(meta_data$path))
   }
 
-  message("drat repos is located at ", drat_repo())
+  if (is.local_drat_repo_set()) {
+    message("local drat repos set ", bracket(local_drat_repo()))
+  } else {
+    message("local drat repo not set")
+  }
 }

@@ -22,4 +22,4 @@ Lastly, the virtual environment can be replciated from the `pkgs.yaml` file usin
 
 ## Example
 
-See the `example/` subdirectory for typically usage patterns.
+See the `examples/` subdirectory for typically usage patterns.
