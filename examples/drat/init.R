@@ -1,6 +1,6 @@
 library(virtualenv)
 
-set_local_drat_repo()
+set_local_drat_repo("~/git/drat")
 
 virtualenv("examples/drat")
 
