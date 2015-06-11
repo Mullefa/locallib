@@ -59,7 +59,9 @@ parse_deps <- function(deps) {
 
 tsort <- function(deps) {
   for (dep in names(deps)) {
-    deps[[dep]] <- setdiff(deps[[dep]], dep)
+    if (dep %in% deps[[dep]]) {
+      stop("package can not depend on itself ", bracket(dep), call. = FALSE)
+    }
   }
 
   incoming <- function() {
