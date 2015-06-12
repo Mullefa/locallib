@@ -1,10 +1,9 @@
 .onLoad <- function(libname, pkgname) {
-  lib_path <- file.path(meta_data$path, "library")
-  lib_paths <- Filter(function(x) x != lib_path, .libPaths())
-
-  for (lib_path in lib_paths) {
+  for (lib_path in global_libs()) {
     lib_warning(lib_path)
   }
+
+  options(repos = "http://cran.rstudio.com")
 }
 
 
@@ -21,7 +20,3 @@ lib_warning <- function(path) {
   }
 }
 
-
-global_pkgs <- function() {
-  c(BASE_AND_RECOMMENDED, "drat", "git2r", "virtualenv", "yaml")
-}

@@ -51,14 +51,35 @@ lib_snapshot <- function() {
 
 read_dcfs <- function(lib_path) {
   pkgs <- list.files(lib_path, full.names = TRUE)
-  lapply(setNames(pkgs, basename(pkgs)), read_dcf)
+  out <- lapply(setNames(pkgs, basename(pkgs)), read_dcf)
+  Filter(Negate(is.null), out)
 }
 
 
 read_dcf <- function(pkg) {
-  desc <- read.dcf(file.path(pkg, "DESCRIPTION"))
+  desc <- tryCatch(
+    read.dcf(file.path(pkg, "DESCRIPTION")),
+    warning = read_dcf_error(pkg),
+    error = read_dcf_error(pkg)
+  )
+
+  if (is.null(desc)) {
+    return(NULL)
+  }
+
   desc <- setNames(as.list(desc), colnames(desc))
   desc
+}
+
+
+read_dcf_error <- function(pkg) {
+  function(...) {
+    warning(
+      "can not read description of ", basename(pkg), " in the local library. ",
+      "If its not actually a package, consider deleting it.", call. = FALSE
+    )
+    NULL
+  }
 }
 
 
@@ -90,9 +111,13 @@ pkg_url <- function(pkg, version, archive) {
 
 
 is.latest_version <- function(pkg, version) {
+  version == latest_version(pkg)
+}
+
+
+latest_version <- function(pkg) {
   m <- available.packages(contrib.url(getOption("repos"), "source"))
-  latest_version <- m[rownames(m) == pkg, ]["Version"]
-  version == latest_version
+  m[rownames(m) == pkg, ]["Version"]
 }
 
 

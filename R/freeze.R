@@ -7,11 +7,16 @@ freeze <- function() {
   }
 
   lib_path <- file.path(meta_data$path, "library")
-
   pkgs <- read_dcfs(lib_path)
   deps <- lapply(pkgs, pkg_deps)
   deps <- Filter(function(dep) dep %notin% pkgignore(), tsort(deps))
   deps <- lapply(deps, function(dep) list(name = dep, version = pkgs[[dep]]$Version))
+
+  for (dep in deps) {
+    if (is.null(dep$version)) {
+      warning("could not find version of package ", bracket(dep), call. = FALSE)
+    }
+  }
 
   out <- list(R_version = R_version(), packages = deps)
   write(yaml::as.yaml(out), file.path(meta_data$path, "pkgs.yaml"))
