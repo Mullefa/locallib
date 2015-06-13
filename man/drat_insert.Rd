@@ -10,6 +10,9 @@ drat_insert_lib(path, commit = TRUE)
 
 drat_insert_pkgs(path, commit = TRUE)
 }
+\arguments{
+\item{path(string)}{Path to library or pkgs.yaml file respectively.}
+}
 \description{
 Insert packages into a local drat repo from either a library or a pkgs.yaml file.
 }

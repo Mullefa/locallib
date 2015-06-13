@@ -8,9 +8,23 @@ freeze <- function() {
 
   lib_path <- file.path(meta_data$path, "library")
   pkgs <- read_dcfs(lib_path)
-  deps <- lapply(pkgs, pkg_deps)
-  deps <- Filter(function(dep) dep %notin% pkgignore(), tsort(deps))
-  deps <- lapply(deps, function(dep) list(name = dep, version = pkgs[[dep]]$Version))
+  deps <- tsort(lapply(pkgs, pkg_deps))
+
+  deps <- Filter(function(dep) dep %notin% pkgignore(), deps)
+
+  deps <- lapply(deps, function(dep) {
+    list(
+      name = dep,
+      version = pkgs[[dep]]$Version %||%
+        find_version(dep) %||% {
+          warning(
+            "dependency ", dep, " cannot be found in any of the libraries. ",
+            "Is it installed?!", call. = FALSE
+          )
+          NULL
+        }
+    )
+  })
 
   for (dep in deps) {
     if (is.null(dep$version)) {
@@ -55,9 +69,6 @@ parse_deps <- function(deps) {
 }
 
 
-# topological sort --------------------------------------------------------
-
-
 # A hacky topological sort which which reduces the set of all nodes recursively by
 # removing nodes which are not incoming nodes. Needs improvement, in particular,
 # informative error messages for cyclic graphs.
@@ -95,4 +106,20 @@ tsort <- function(deps) {
   }
 
   out
+}
+
+
+# find version ------------------------------------------------------------
+
+
+find_version <- function(pkg_name) {
+  for (path in .libPaths()[-1]) {
+    pkg <- read_dcf(file.path(path, pkg_name))
+
+    if (!is.null(pkg) && !is.null(pkg$Version)) {
+      return(pkg$Version)
+    }
+  }
+
+  NULL
 }

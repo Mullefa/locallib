@@ -42,8 +42,6 @@ meta_data$activated <- FALSE
 meta_data$path <- NULL
 
 
-#' @rdname activate
-#' @export
 is.activated <- function() {
   meta_data$activated
 }

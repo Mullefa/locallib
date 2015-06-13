@@ -2,12 +2,9 @@
 % Please edit documentation in R/activate.R
 \name{activate}
 \alias{activate}
-\alias{is.activated}
 \title{Activate a virtual environment}
 \usage{
 activate(path = NULL)
-
-is.activated()
 }
 \arguments{
 \item{path(string)}{}
