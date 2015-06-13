@@ -25,6 +25,7 @@ thaw <- function(...) {
       stop(
         "the namespace of ", pkg$name, " is currently loaded. ",
         "Not attempting installation into the local library.",
+        "Restart R, activate the virtual environment, and try again.",
         call. = FALSE
       )
     }
@@ -39,7 +40,15 @@ thaw <- function(...) {
     if (!is.null(lib_pkg) && pkg$version == lib_pkg$Version) {
       message(pkg$name, " ", bracket(pkg$version)," already installed locally")
     }  else {
-      download_and_install(pkg$name, pkg$version)
+      pkg_version <- pkg$version %||% {
+        warning(
+          "no version given for package ", pkg$name, ". ",
+          "Installing the latest version.", call. = FALSE
+        )
+        latest_version(pkg$name)
+      }
+
+      download_and_install(pkg$name, pkg_version)
     }
   }
 }

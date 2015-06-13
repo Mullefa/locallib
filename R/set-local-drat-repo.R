@@ -1,17 +1,20 @@
 #' Set a local drat repo
 #'
 #' @export
-set_local_drat_repo <- function(name = "drat", basepath = "~/git") {
-  if (!file.exists(basepath)) {
-    message("creating base path for drat repo ", bracket(basepath))
-    dir.create(basepath, recursive = TRUE)
-  }
+set_local_drat_repo <- function(path = NULL) {
+  path <- suppressWarnings(normalizePath(path %||% "~/git/drat"))
 
-  path <- file.path(basepath, name)
+  base <- basename(path)
+  dir <- dirname(path)
+
+  if (!file.exists(dir)) {
+    message("creating base path for drat repo ", bracket(dir))
+    dir.create(dir, recursive = TRUE)
+  }
 
   if (!file.exists(path)) {
     message("intialising drat repo ", bracket(path))
-    drat::initRepo(basename(path), dirname(path))
+    drat::initRepo(base, dir)
   } else {
     if (!is.valid_local_drat_repo(path)) {
       stop("local drat repo is not valid ", bracket(path), call. = FALSE)

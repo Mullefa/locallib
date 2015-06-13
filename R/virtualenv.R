@@ -51,15 +51,24 @@ is.virtualenv <- function(path) {
 #'
 #' @export
 virtualenv_info <- function() {
+  message("virtualenv info:")
+  message("================")
+
   if (!is.activated()) {
-    message("virtual environment not currently activated")
+    message("- virtual environment not currently activated")
   } else {
-    message("virtual environment activated ", bracket(meta_data$path))
+    message("- virtual environment activated ", bracket(meta_data$path))
   }
 
   if (is.local_drat_repo_set()) {
-    message("local drat repos set ", bracket(local_drat_repo()))
+    message("- local drat repos set ", bracket(local_drat_repo()))
   } else {
-    message("local drat repo not set")
+    message("- local drat repo not set")
+  }
+
+  message("- package search paths:")
+
+  for (path in .libPaths()) {
+    message("  * ", path)
   }
 }
