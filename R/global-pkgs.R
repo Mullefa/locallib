@@ -1,5 +1,5 @@
 global_pkgs <- function() {
-  c(BASE_AND_RECOMMENDED, "drat", "git2r", "virtualenv", "yaml")
+  c(BASE_AND_RECOMMENDED, "drat", "git2r", "locallib", "yaml")
 }
 
 

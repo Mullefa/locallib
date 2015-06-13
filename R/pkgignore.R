@@ -44,5 +44,5 @@ BASE_AND_RECOMMENDED <- c(
   "tools",
   "translations",
   "utils",
-  "00LOCK-virtualenv"
+  "00LOCK-locallib"
 )

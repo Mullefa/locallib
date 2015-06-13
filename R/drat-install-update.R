@@ -1,7 +1,7 @@
 drat_ <- function(f) {
   function(..., commit = FALSE) {
     if (!is.activated()) {
-      stop("virtual environment must be activated to use drat_install()", call. = FALSE)
+      stop("local library must be activated to use drat_install()", call. = FALSE)
     }
 
     if (!is.local_drat_repo_set()) {
@@ -131,7 +131,7 @@ pkg_file <- function(pkg, version) {
 
 #' drat install
 #'
-#' Install packages into the virtual environment, then insert the source for the
+#' Install packages into the local library, then insert the source for the
 #' installed packge into the drat repository.
 #'
 #' @usage drat_install(..., commit = FALSE)

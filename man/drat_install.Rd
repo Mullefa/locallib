@@ -16,7 +16,7 @@ drat_update(..., commit = FALSE)
 \item{commit}{See \code{commit} argument of \code{drat::\link[drat]{insertPackage}()}.}
 }
 \description{
-Install packages into the virtual environment, then insert the source for the
+Install packages into the local library, then insert the source for the
 installed packge into the drat repository.
 }
 

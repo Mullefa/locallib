@@ -3,7 +3,7 @@
 #' @export
 freeze <- function() {
   if (!is.activated()) {
-    stop("virtual environment must be activated to use this function")
+    stop("local library must be activated to use this function")
   }
 
   lib_path <- file.path(meta_data$path, "library")

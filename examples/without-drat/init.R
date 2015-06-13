@@ -1,8 +1,8 @@
-library(virtualenv)
+library(locallib)
 
-virtualenv("examples/without-drat/")
+create_local_lib("examples/without-drat/")
 
-activate("examples/without-drat/")
+use_local_lib("examples/without-drat/")
 
 install.packages("dplyr")
 
