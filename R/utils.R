@@ -23,3 +23,11 @@ R_version <- function() {
   rv <- R.Version()
   paste0(rv$major, ".", rv$minor)
 }
+
+
+func_warning <- function(func_name) {
+  warning(
+    "the function ", func_name, "() is still under development ",
+    "and could be subject to change in the future", call. = FALSE
+  )
+}

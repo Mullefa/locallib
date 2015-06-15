@@ -41,6 +41,3 @@ is.local_drat_repo_set <- function() {
 local_drat_repo <- function() {
   meta_data$repo_path
 }
-
-
-meta_data$repo_path <- NULL

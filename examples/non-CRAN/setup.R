@@ -1,7 +1,7 @@
-library(virtualenv)
+library(locallib)
 
-virtualenv()
-activate()
+create_local_lib()
+use_local_lib()
 thaw()
 
 library(devtools)

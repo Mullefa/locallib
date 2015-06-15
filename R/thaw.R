@@ -1,4 +1,4 @@
-#' Recreate a virtual environment
+#' Install the packages specified a pkg.yaml file
 #'
 #' @param ... Further arguments to pass to \code{\link{install.packages}()}
 #'  (not the package name).
@@ -6,7 +6,7 @@
 #' @export
 thaw <- function(...) {
   if (!is.activated()) {
-    stop("virtual environment must be activated to use thaw()", call. = FALSE)
+    stop("local library must be activated to use thaw()", call. = FALSE)
   }
 
   path <- file.path(meta_data$path, "pkgs.yaml")
@@ -14,9 +14,9 @@ thaw <- function(...) {
 
   if (pkgs$R_version != R_version()) {
     warning(
-      "R version of current environment ", bracket(R_version()),
-      " is different to R version in which the virtual environment was created", bracket(pkgs$R_version),
-      call. = FALSE
+      "R version of current environment ", bracket(R_version()), " ",
+      "is different to R version in which the local library was created ",
+      bracket(pkgs$R_version), call. = FALSE
     )
   }
 
@@ -25,7 +25,7 @@ thaw <- function(...) {
       stop(
         "the namespace of ", pkg$name, " is currently loaded. ",
         "Not attempting installation into the local library.",
-        "Restart R, activate the virtual environment, and try again.",
+        "Restart R, activate the local library, and try again.",
         call. = FALSE
       )
     }

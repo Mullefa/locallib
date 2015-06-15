@@ -1,10 +1,10 @@
-library(virtualenv)
+library(locallib)
 
 set_local_drat_repo("~/git/drat")
 
-virtualenv("examples/drat")
+create_local_lib("examples/drat")
 
-activate("examples/drat")
+use_local_lib("examples/drat")
 
 drat_install("dplyr", commit = TRUE)
 

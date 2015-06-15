@@ -1,8 +1,8 @@
-library(virtualenv)
+library(locallib)
 
-virtualenv("examples/drat/")
+create_local_lib("examples/drat/")
 
-activate("examples/drat/")
+use_local_lib("examples/drat/")
 
 # set to NULL for demonstartion purposes only
 options(repos = NULL)

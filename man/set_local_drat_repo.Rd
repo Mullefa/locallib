@@ -4,7 +4,7 @@
 \alias{set_local_drat_repo}
 \title{Set a local drat repo}
 \usage{
-set_local_drat_repo(name = "drat", basepath = "~/git")
+set_local_drat_repo(path = NULL)
 }
 \description{
 Set a local drat repo

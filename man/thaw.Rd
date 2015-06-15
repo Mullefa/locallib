@@ -2,7 +2,7 @@
 % Please edit documentation in R/thaw.R
 \name{thaw}
 \alias{thaw}
-\title{Recreate a virtual environment}
+\title{Install the packages specified a pkg.yaml file}
 \usage{
 thaw(...)
 }
@@ -11,6 +11,6 @@ thaw(...)
  (not the package name).}
 }
 \description{
-Recreate a virtual environment
+Install the packages specified a pkg.yaml file
 }
 
