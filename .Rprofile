@@ -1,1 +1,7 @@
-options(dratRepo = "/Users/guy.dawson/Projects/R/drat")
+options(dratRepo = "~/git/drat")
+
+
+load_all <- function() {
+  devtools::load_all()
+  use_local_lib()
+}
