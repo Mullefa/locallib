@@ -12,6 +12,9 @@ thaw <- function(...) {
   path <- file.path(meta_data$path, "pkgs.yaml")
   pkgs <- yaml::yaml.load_file(path)
 
+  # FIXME: need to decide how to handle yaml dependency
+  pkgs$packages <- Filter(function(pkg) pkg$name %notin% global_pkgs(), pkgs$packages)
+
   if (pkgs$R_version != R_version()) {
     warning(
       "R version of current environment ", bracket(R_version()), " ",
