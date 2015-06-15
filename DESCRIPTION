@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: person("Guy", "Dawson", , "gccdawson@gmail.com", role = c("aut", "cre"))
 Description: virtualenv for R.
 Depends:
-    R (>= 3.2.0)
+    R (>= 3.1.0)
 Imports:
     drat (>= 0.0.4),
     git2r (>= 0.10.0),
