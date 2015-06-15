@@ -73,7 +73,8 @@ download_and_install <- function(pkg, version) {
     }
   )
 
-  install.packages(pkg._, repos = NULL, type = "source")
+  # FIXME: if R_LIBS is set in .Renviron, this may not work for some reason?!
+  install.packages(pkgs = pkg._, repos = NULL, type = "source")
 
   unlink(pkg._)
 }
