@@ -11,10 +11,10 @@ drat_ <- function(f) {
       )
     }
 
-    before <- lib_snapshot()
+    before <- read_dcfs(local_lib())
     f(...)
 
-    after <- lib_snapshot()
+    after <- read_dcfs(local_lib())
     pkgs <- lib_diff(before, after)
     pkgs <- Filter(function(pkg) pkg$Package %notin% pkgignore(), pkgs)
 
@@ -43,14 +43,8 @@ lib_diff <- function(before, after) {
 }
 
 
-lib_snapshot <- function() {
-  lib_path <- file.path(meta_data$path, "library")
-  read_dcfs(lib_path)
-}
-
-
-read_dcfs <- function(lib_path) {
-  pkgs <- list.files(lib_path, full.names = TRUE)
+read_dcfs <- function(path) {
+  pkgs <- list.files(path, full.names = TRUE)
   out <- lapply(setNames(pkgs, basename(pkgs)), read_dcf)
   Filter(Negate(is.null), out)
 }

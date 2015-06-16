@@ -7,15 +7,13 @@ use_local_lib <- function(path = NULL) {
   path <- normalize_path(path)
 
   if (is.activated()) {
-    local_lib <- file.path(meta_data$path, "library")
-
     if (path == meta_data$path) {
-      message("local library already activated ", bracket(local_lib))
+      message("local library already activated ", bracket(local_lib()))
       return(invisible())
     }
 
     stop(
-      "a different local library is already activated ", bracket(local_lib), ". ",
+      "a different local library is already activated ", bracket(local_lib()), ". ",
       "Restart R to activate a new one", call. = FALSE
     )
   }

@@ -7,15 +7,13 @@ create_local_lib <- function(path = NULL) {
   path <- normalize_path(path)
 
   if (is.activated()) {
-    local_lib <- file.path(meta_data$path, "library")
-
-    if (path == local_lib) {
-      message("local library already activated ", bracket(local_lib))
+    if (path == local_lib()) {
+      message("local library already activated ", bracket(local_lib()))
       return(invisible())
     }
 
     stop(
-      "a different local library is already activated", bracket(local_lib), ". ",
+      "a different local library is already activated", bracket(local_lib()), ". ",
       "Restart R session to create a new one", call. = FALSE
     )
   }
@@ -32,19 +30,22 @@ create_local_lib <- function(path = NULL) {
     message("creating root directory of the local library")
   }
 
-  lib_path <- file.path(path, "library")
+  meta_data$path <- path
 
   message("creating local library")
-  dir.create(lib_path)
-
-  meta_data$path <- path
+  dir.create(local_lib())
 
   invisible()
 }
 
 
 has_local_lib <- function(path) {
-  lib_path <- file.path(path, "library")
-  file.exists(path) && file.exists(lib_path)
+  # NOTE: doesn't use local_lib() as this function might be called
+  # when local library is not activated
+  file.exists(path) && file.exists(file.path(path, "library"))
 }
 
+
+local_lib <- function() {
+  file.path(meta_data$path, "library")
+}

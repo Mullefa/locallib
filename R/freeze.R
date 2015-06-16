@@ -6,8 +6,7 @@ freeze <- function() {
     stop("local library must be activated to use this function")
   }
 
-  lib_path <- file.path(meta_data$path, "library")
-  pkgs <- read_dcfs(lib_path)
+  pkgs <- read_dcfs(local_lib())
   deps <- tsort(lapply(pkgs, pkg_deps))
 
   deps <- Filter(function(dep) dep %notin% pkgignore(), deps)

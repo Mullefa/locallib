@@ -34,8 +34,7 @@ thaw <- function(...) {
     }
   }
 
-  lib_path <- file.path(meta_data$path, "library")
-  lib_pkgs <- read_dcfs(lib_path)
+  lib_pkgs <- read_dcfs(local_lib())
 
   for (pkg in pkgs$packages) {
     lib_pkg <- lib_pkgs[[pkg$name]]
