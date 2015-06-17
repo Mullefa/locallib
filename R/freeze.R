@@ -58,7 +58,9 @@ parse_deps <- function(deps) {
 
   out <- strsplit(deps, ",")[[1]]
   out <- gsub("\\s||\\(.*\\)", "", out)
-  out <- out[out != "R"]
+
+  # remove dependency on R, or empty strings created by trailing commas e.g. R,
+  out <- out[out %notin% c("R", "")]
 
   if (!length(out)) {
     NULL
