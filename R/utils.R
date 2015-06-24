@@ -10,7 +10,7 @@ normalize_path <- function(path) {
   tryCatch(
     normalizePath(path %||% ".", mustWork = TRUE),
     error = function(e) {
-      stop("path is not valid", call. = FALSE)
+      error("path is not valid")
     }
   )
 }
@@ -26,8 +26,18 @@ R_version <- function() {
 
 
 func_warning <- function(func_name) {
-  warning(
+  warn(
     "the function ", func_name, "() is still under development ",
-    "and could be subject to change in the future", call. = FALSE
+    "and could be subject to change in the future"
   )
+}
+
+
+error <- function(...) {
+  stop(..., call. = FALSE)
+}
+
+
+warn <- function(...) {
+  warning(..., call. = FALSE)
 }

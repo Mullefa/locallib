@@ -1,13 +1,13 @@
 drat_ <- function(f) {
   function(..., commit = FALSE) {
     if (!is.activated()) {
-      stop("local library must be activated to use drat_install()", call. = FALSE)
+      error("local library must be activated to use drat_install()")
     }
 
     if (!is.local_drat_repo_set()) {
-      stop(
+      error(
         "local drat repo has not been set. Use the function: ",
-        "set_local_drat_repo() to do so.", call. = FALSE
+        "set_local_drat_repo() to do so."
       )
     }
 
@@ -68,9 +68,9 @@ read_dcf <- function(pkg) {
 
 read_dcf_error <- function(pkg) {
   function(...) {
-    warning(
+    warn(
       "can not read description of ", basename(pkg), " in the local library. ",
-      "If its not actually a package, consider deleting it.", call. = FALSE
+      "If its not actually a package, consider deleting it."
     )
     NULL
   }

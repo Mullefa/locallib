@@ -12,14 +12,14 @@ use_local_lib <- function(path = NULL) {
       return(invisible())
     }
 
-    stop(
+    error(
       "a different local library is already activated ", bracket(local_lib()), ". ",
-      "Restart R to activate a new one", call. = FALSE
+      "Restart R to activate a new one"
     )
   }
 
   if (!has_local_lib(path)) {
-    stop("directory does not have a local library ", bracket(path), call. = FALSE)
+    error("directory does not have a local library ", bracket(path))
   }
 
   message("activating local library ", bracket(path))

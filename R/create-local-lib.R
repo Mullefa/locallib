@@ -12,9 +12,9 @@ create_local_lib <- function(path = NULL) {
       return(invisible())
     }
 
-    stop(
+    error(
       "a different local library is already activated", bracket(local_lib()), ". ",
-      "Restart R session to create a new one", call. = FALSE
+      "Restart R session to create a new one"
     )
   }
 

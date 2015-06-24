@@ -1,12 +1,9 @@
 #' Install the packages specified a pkg.yaml file
 #'
-#' @param ... Further arguments to pass to \code{\link{install.packages}()}
-#'  (not the package name).
-#'
 #' @export
-thaw <- function(...) {
+thaw <- function() {
   if (!is.activated()) {
-    stop("local library must be activated to use thaw()", call. = FALSE)
+    error("local library must be activated to use thaw()")
   }
 
   path <- file.path(meta_data$path, "pkgs.yaml")
@@ -16,20 +13,19 @@ thaw <- function(...) {
   pkgs$packages <- Filter(function(pkg) pkg$name %notin% global_pkgs(), pkgs$packages)
 
   if (pkgs$R_version != R_version()) {
-    warning(
+    warn(
       "R version of current environment ", bracket(R_version()), " ",
       "is different to R version in which the local library was created ",
-      bracket(pkgs$R_version), call. = FALSE
+      bracket(pkgs$R_version)
     )
   }
 
   for (pkg in pkgs$packages) {
     if (pkg$name %in% loadedNamespaces()) {
-      stop(
+      error(
         "the namespace of ", pkg$name, " is currently loaded. ",
         "Not attempting installation into the local library.",
-        "Restart R, activate the local library, and try again.",
-        call. = FALSE
+        "Restart R, activate the local library, and try again."
       )
     }
   }
@@ -43,38 +39,14 @@ thaw <- function(...) {
       message(pkg$name, " ", bracket(pkg$version)," already installed locally")
     }  else {
       pkg_version <- pkg$version %||% {
-        warning(
+        warn(
           "no version given for package ", pkg$name, ". ",
-          "Installing the latest version.", call. = FALSE
+          "Installing the latest version."
         )
         latest_version(pkg$name)
       }
 
-      download_and_install(pkg$name, pkg_version)
+      install_version(pkg$name, pkg_version)
     }
   }
 }
-
-
-# When installing a package which is not the latest version, there are two scenarios:
-# 1. the package will be in src/contrib/00Archive/<pkgname>/ (e.g. CRAN)
-# 2. the package will be in src/contrib/ (e.g. a drat repository)
-# Both these scenarios are handled in the tryCatch() call.
-download_and_install <- function(pkg, version) {
-  pkg._ <- pkg_file(pkg, version)
-  url <- pkg_url(pkg, version, archive = TRUE)
-
-  tryCatch(
-    download.file(url, pkg._),
-    error = function(e) {
-      url <- pkg_url(pkg, version, archive = FALSE)
-      download.file(url, pkg._)
-    }
-  )
-
-  # FIXME: if R_LIBS is set in .Renviron, this may not work for some reason?!
-  install.packages(pkgs = pkg._, repos = NULL, type = "source")
-
-  unlink(pkg._)
-}
-

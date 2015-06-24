@@ -3,11 +3,11 @@
 #' @export
 create_pkgignore <- function() {
   if (!is.activated()) {
-    stop("local library must be activated to use this function", call. = FALSE)
+    error("local library must be activated to use this function")
   }
 
   if (file.exists(pkgignore_path())) {
-    warning("a pkgignore file already exists", call. = FALSE)
+    warn("a pkgignore file already exists")
     return(invisible())
   }
 

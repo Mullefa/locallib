@@ -12,10 +12,7 @@ lib_warning <- function(path) {
 
   for (pkg in pkgs) {
     if (pkg %notin% global_pkgs()) {
-      warning(
-        "the package ", pkg, " is installed in a global library ",
-        bracket(path), call. = FALSE
-      )
+      warn("the package ", pkg, " is installed in a global library ", bracket(path))
     }
   }
 }

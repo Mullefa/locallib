@@ -30,9 +30,9 @@ drat_insert_pkgs <- function(path, commit = TRUE) {
 
 drat_insert_impl <- function(pkgs, commit) {
   if (!is.local_drat_repo_set()) {
-    stop(
+    error(
       "local drat repo has not been set. Use the function: ",
-      "set_local_drat_repo() to do so.", call. = FALSE
+      "set_local_drat_repo() to do so."
     )
   }
 

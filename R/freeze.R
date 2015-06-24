@@ -3,7 +3,7 @@
 #' @export
 freeze <- function() {
   if (!is.activated()) {
-    stop("local library must be activated to use this function")
+    error("local library must be activated to use this function")
   }
 
   pkgs <- read_dcfs(local_lib())
@@ -16,9 +16,9 @@ freeze <- function() {
       name = dep,
       version = pkgs[[dep]]$Version %||%
         find_version(dep) %||% {
-          warning(
+          warn(
             "dependency ", dep, " cannot be found in any of the libraries. ",
-            "Is it installed?!", call. = FALSE
+            "Is it installed?!"
           )
           NULL
         }
@@ -27,7 +27,7 @@ freeze <- function() {
 
   for (dep in deps) {
     if (is.null(dep$version)) {
-      warning("could not find version of package ", bracket(dep), call. = FALSE)
+      warn("could not find version of package ", bracket(dep))
     }
   }
 
@@ -77,7 +77,7 @@ parse_deps <- function(deps) {
 tsort <- function(deps) {
   for (dep in names(deps)) {
     if (dep %in% deps[[dep]]) {
-      stop("package can not depend on itself ", bracket(dep), call. = FALSE)
+      error("package can not depend on itself ", bracket(dep))
     }
   }
 
@@ -103,7 +103,7 @@ tsort <- function(deps) {
       }
     }
 
-    if (i == j) stop(call. = FALSE)
+    if (i == j) error("cyclic dependency")
   }
 
   out

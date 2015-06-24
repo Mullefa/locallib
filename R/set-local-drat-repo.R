@@ -17,7 +17,7 @@ set_local_drat_repo <- function(path = NULL) {
     drat::initRepo(base, dir)
   } else {
     if (!is.valid_local_drat_repo(path)) {
-      stop("local drat repo is not valid ", bracket(path), call. = FALSE)
+      error("local drat repo is not valid ", bracket(path))
     }
   }
 

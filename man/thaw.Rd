@@ -4,11 +4,7 @@
 \alias{thaw}
 \title{Install the packages specified a pkg.yaml file}
 \usage{
-thaw(...)
-}
-\arguments{
-\item{...}{Further arguments to pass to \code{\link{install.packages}()}
- (not the package name).}
+thaw()
 }
 \description{
 Install the packages specified a pkg.yaml file

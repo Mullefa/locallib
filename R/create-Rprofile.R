@@ -6,11 +6,11 @@
 #' @export
 create_.Rprofile <- function() {
   if (!is.activated()) {
-    stop("local library must be activated to use this function", call. = FALSE)
+    error("local library must be activated to use this function")
   }
 
   if (file.exists(.Rprofile_path())) {
-    warning("a .Rprofile already exists", call. = FALSE)
+    warn("a .Rprofile already exists")
     return(invisible())
   }
 

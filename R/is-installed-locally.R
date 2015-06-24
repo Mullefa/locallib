@@ -8,10 +8,7 @@
 #' @export
 is.installed_locally <- function(pkg, version = NULL) {
   if (!is.activated()) {
-    stop(
-      "local library must be activated to check if a package is installed locally",
-      call. = FALSE
-    )
+    error("local library must be activated to check if a package is installed locally")
   }
 
   dcfs <- read_dcfs(local_lib())
