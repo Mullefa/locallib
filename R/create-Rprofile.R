@@ -1,30 +1,33 @@
 #' Create a .Rprofile
 #'
 #' Create a .Rprofile which creates a local library, and then activates it
-#' (if R is being used interactively)
+#' (if R is being used interactively).
 #'
 #' @export
-create_.Rprofile <- function() {
-  if (!is.activated()) {
-    error("local library must be activated to use this function")
+create_.Rprofile <- function(path = NULL) {
+  if (is.activated()) {
+    error("local library must be deactivated to create a .Rprofile")
   }
 
-  if (file.exists(.Rprofile_path())) {
-    warn("a .Rprofile already exists")
+  path <- normalize_path(path)
+
+  if (.Rprofile_exists(path)) {
+    warn("a .Rprofile already exists in this directory ", bracket(path))
     return(invisible())
   }
 
   message("creating .Rprofile")
-  invisible(copy_.Rprofile())
+  invisible(copy_.Rprofile(path))
 }
 
 
-copy_.Rprofile <- function() {
+copy_.Rprofile <- function(path) {
   template <- system.file("templates", "Rprofile.R", package = "locallib")
-  file.copy(template, .Rprofile_path())
+  file.copy(template, file.path(path, ".Rprofile"))
 }
 
 
-.Rprofile_path <- function() {
-  file.path(meta_data$path, ".Rprofile")
+.Rprofile_exists <- function(path) {
+  path <- file.path(path, ".Rprofile")
+  file.exists(path)
 }
