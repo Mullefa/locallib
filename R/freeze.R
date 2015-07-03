@@ -37,38 +37,6 @@ freeze <- function() {
   invisible(out)
 }
 
-# FIXME: currently this will only pick up dependencies in the local library.
-# Need to decide whether to extend this to other libraries to collect all
-# non-base / recommended dependencies (such as drat, git2r and yaml)
-
-
-# package deps ------------------------------------------------------------
-
-
-pkg_deps <- function(pkg) {
-  deps <- paste(c(pkg$Depends, pkg$Imports, pkg$LinkingTo), collapse = ",")
-  parse_deps(deps)
-}
-
-
-parse_deps <- function(deps) {
-  if (!length(deps) || deps == "") {
-    return(NULL)
-  }
-
-  out <- strsplit(deps, ",")[[1]]
-  out <- gsub("\\s||\\(.*\\)", "", out)
-
-  # remove dependency on R, or empty strings created by trailing commas e.g. R,
-  out <- out[out %notin% c("R", "")]
-
-  if (!length(out)) {
-    NULL
-  } else {
-    out
-  }
-}
-
 
 # A hacky topological sort which which reduces the set of all nodes recursively by
 # removing nodes which are not incoming nodes. Needs improvement, in particular,

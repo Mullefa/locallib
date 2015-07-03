@@ -34,6 +34,11 @@ use_local_lib <- function(path = NULL) {
 }
 
 
+is.activated <- function() {
+  meta_data$activated
+}
+
+
 # meta data ---------------------------------------------------------------
 
 
@@ -41,8 +46,3 @@ meta_data <- new.env()
 meta_data$activated <- FALSE
 meta_data$path <- NULL
 meta_data$repo_path <- NULL
-
-
-is.activated <- function() {
-  meta_data$activated
-}
