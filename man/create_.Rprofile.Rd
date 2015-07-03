@@ -4,10 +4,10 @@
 \alias{create_.Rprofile}
 \title{Create a .Rprofile}
 \usage{
-create_.Rprofile()
+create_.Rprofile(path = NULL)
 }
 \description{
 Create a .Rprofile which creates a local library, and then activates it
-(if R is being used interactively)
+(if R is being used interactively).
 }
 

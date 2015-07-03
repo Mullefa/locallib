@@ -37,7 +37,7 @@ thaw <- function() {
 
     if (!is.null(lib_pkg) && pkg$version == lib_pkg$Version) {
       message(pkg$name, " ", bracket(pkg$version)," already installed locally")
-    }  else {
+    } else {
       pkg_version <- pkg$version %||% {
         warn(
           "no version given for package ", pkg$name, ". ",

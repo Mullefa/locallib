@@ -41,3 +41,32 @@ error <- function(...) {
 warn <- function(...) {
   warning(..., call. = FALSE)
 }
+
+
+until_success <- function(xs, f, ..., error_msg = NULL) {
+  i <- 1
+  n <- length(xs)
+  success <- FALSE
+
+  while (!success) {
+    if (i > n) {
+      error(error_msg %||% "")
+    }
+    tryCatch({
+        out <- f(xs[[i]], ...)
+        success <- TRUE
+      },
+      error = function(err) {
+        NULL
+      }
+    )
+    i <- i + 1
+  }
+
+  out
+}
+
+
+`%recover_with%` <- function(x, y) {
+  tryCatch(x, error = function(err) y)
+}
