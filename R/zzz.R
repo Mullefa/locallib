@@ -3,7 +3,7 @@
     lib_warning(lib_path)
   }
 
-  options(repos = "http://cran.rstudio.com")
+  add_rstudio_cran_mirror()
 }
 
 

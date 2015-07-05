@@ -70,3 +70,15 @@ until_success <- function(xs, f, ..., error_msg = NULL) {
 `%recover_with%` <- function(x, y) {
   tryCatch(x, error = function(err) y)
 }
+
+
+add_rstudio_cran_mirror <- function() {
+  repos <- getOption("repos")
+
+  if (RSTUDIO_CRAN_MIRROR %notin% repos) {
+    options(repos = c(repos, RSTUDIO_CRAN_MIRROR))
+  }
+}
+
+
+RSTUDIO_CRAN_MIRROR <- "http://cran.rstudio.com"
