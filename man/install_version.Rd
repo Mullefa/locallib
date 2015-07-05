@@ -2,9 +2,9 @@
 % Please edit documentation in R/install-version.R
 \name{install_version}
 \alias{install_version}
-\title{Install a particular version of a package}
+\title{Install a particular version of a package into a local library}
 \usage{
-install_version(pkg, version)
+install_version(pkg, version = NULL)
 }
 \arguments{
 \item{pkg(string)}{Package name.}
@@ -12,6 +12,6 @@ install_version(pkg, version)
 \item{version(string)}{Package version.}
 }
 \description{
-Install a particular version of a package
+Install a particular version of a package into a local library
 }
 

@@ -33,20 +33,6 @@ thaw <- function() {
   lib_pkgs <- read_dcfs(local_lib())
 
   for (pkg in pkgs$packages) {
-    lib_pkg <- lib_pkgs[[pkg$name]]
-
-    if (!is.null(lib_pkg) && pkg$version == lib_pkg$Version) {
-      message(pkg$name, " ", bracket(pkg$version)," already installed locally")
-    } else {
-      pkg_version <- pkg$version %||% {
-        warn(
-          "no version given for package ", pkg$name, ". ",
-          "Installing the latest version."
-        )
-        latest_version(pkg$name)
-      }
-
-      install_version(pkg$name, pkg_version)
-    }
+    install_version(pkg$name, pkg$version)
   }
 }
