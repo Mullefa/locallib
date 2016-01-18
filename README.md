@@ -20,6 +20,18 @@ When using the functions `drat_install()` and `freeze()`, it may be desirable fo
 
 Lastly, the local library can be replicated from the `pkgs.yaml` file using the function `thaw()`.
 
+## Use with multidplyr
+
+The function `cluster_use_local_lib()` can be used to activate the locally activated local lib on each of the remote nodes e.g.
+
+```R
+library(locallib)
+library(dplyr)
+library(multidplyr)
+
+get_default_cluster %>% cluster_use_local_lib
+```
+
 ## Installation
 
 Installing locallib using `devtools::install_github()` is a bit of a pain: the user has to install devtools into the global library; then install virtualenv from github; then remove devtools plus all of it dependencies from the global library (assuming the user wants to only keep core packages in the global library).
@@ -40,4 +52,4 @@ Instead the following is recommended:
    
 ## Examples
 
-See the `examples/` sub-directory for typically usage patterns.
+See the `examples/` sub-directory for typically usage patterns. Also check out [geohash-vis](https://github.com/Mullefa/geohash-vis).
