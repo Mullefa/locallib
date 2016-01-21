@@ -2,10 +2,10 @@
 
 
 download_pkg <- function(pkg, version, archive = TRUE) {
-  pkg._ <- pkg_file(pkg, version)
+  destfile <- file.path(tempdir(), pkg_file(pkg, version))
   urls <- pkg_urls(pkg, version, archive)
 
-  until_success(urls, download_file, destfile = pkg._, error_msg = paste(
+  until_success(urls, download_file, destfile = destfile, error_msg = paste(
     "unable to download package", pkg, bracket(version)
   ))
 }
@@ -17,28 +17,24 @@ download_file <- function(url, destfile, ...) {
 }
 
 
-# can return multiple urls if multiple repositories have been set
+# Can return multiple urls if multiple repositories have been set.
 pkg_urls <- function(pkg, version, archive) {
-  pkg._ <- pkg_file(pkg, version)
+  base_url <- pkg_file(pkg, version)
 
-  if (!is.latest_version(pkg, version) && archive) {
-    base_url <- paste0("00Archive/", pkg, "/", pkg._)
-  } else {
-    base_url <- pkg._
+  # Throws an error if latest version can't be found.
+  if (version != latest_version(pkg) && archive) {
+    base_url <- paste0("00Archive/", pkg, "/", base_url)
   }
 
   paste0(contrib.url(getOption("repos"), "source"), "/", base_url)
 }
 
 
-is.latest_version <- function(pkg, version) {
-  version == latest_version(pkg)
-}
-
-
 latest_version <- function(pkg) {
   m <- available.packages(contrib.url(getOption("repos"), "source"))
-  m[rownames(m) == pkg, ]["Version"]
+  out <- unname(m[rownames(m) == pkg, ]["Version"])
+
+  if (!is.na(out)) out else error("Latest verion of ", pkg, " can't be found")
 }
 
 
