@@ -11,7 +11,8 @@ NULL
 #' @rdname drat_insert
 #' @export
 drat_insert_lib <- function(path, commit = TRUE) {
-  func_warning("drat_insert_lib")
+  warn("This function is currently experimental!")
+
   pkgs <- lapply(read_dcfs(path), function(pkg) {
     list(name = pkg$Package, version = pkg$Version)
   })
@@ -22,7 +23,8 @@ drat_insert_lib <- function(path, commit = TRUE) {
 #' @rdname drat_insert
 #' @export
 drat_insert_pkgs <- function(path, commit = TRUE) {
-  func_warning("drat_insert_pkgs")
+  warn("This function is currently experimental!")
+
   pkgs <- yaml::yaml.load_file(path)[["packages"]]
   drat_insert_impl(pkgs, commit)
 }
@@ -37,6 +39,7 @@ drat_insert_impl <- function(pkgs, commit) {
   }
 
   for (pkg in pkgs) {
+    # FIXME: this function has gone missing?!
     download_and_insert(pkg$name, pkg$version, commit)
   }
 }

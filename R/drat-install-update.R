@@ -1,5 +1,7 @@
 drat_ <- function(f) {
   function(..., commit = FALSE) {
+    warn("This function is currently experimental!")
+
     if (!is.activated()) {
       error("local library must be activated to use drat_install()")
     }
@@ -42,9 +44,9 @@ lib_diff <- function(before, after) {
 
 # TODO: consider exporting
 drat_insert_version <- function(pkg, version, commit) {
-  pkg._ <- download_pkg(pkg, version)
-  on.exit(unlink(pkg._))
-  drat::insertPackage(pkg._, commit = commit, repodir = meta_data$repo_path)
+  destfile <- download_pkg(pkg, version, "source")
+  on.exit(unlink(destfile))
+  drat::insertPackage(destfile, commit = commit, repodir = meta_data$repo_path)
 }
 
 

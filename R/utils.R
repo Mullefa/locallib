@@ -25,14 +25,6 @@ R_version <- function() {
 }
 
 
-func_warning <- function(func_name) {
-  warn(
-    "the function ", func_name, "() is still under development ",
-    "and could be subject to change in the future"
-  )
-}
-
-
 error <- function(...) {
   stop(..., call. = FALSE)
 }
